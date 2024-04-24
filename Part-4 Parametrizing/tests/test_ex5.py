@@ -6,7 +6,12 @@ from core.app1.models import Product
     "title, category, description, slug, regular_price, discount_price, validity",
     [
         ("NewTitle", 1, "NewDescription", "slug", "4.99", "3.99", True),
+        pytest.param("", 1, "NewDescription", "slug", "4.99", "3.99", False, marks=pytest.mark.xfail),
+        pytest.param("NewTitle", None, "NewDescription", "slug", "4.99", "3.99", False, marks=pytest.mark.xfail),
+        ("NewTitle", 1, "", "slug", "4.99", "3.99", True),
+        pytest.param("NewTitle", 1, "NewDescription", "", "4.99", "3.99", False, marks=pytest.mark.xfail),
         pytest.param("NewTitle", 1, "NewDescription", "slug", "", "3.99", False, marks=pytest.mark.xfail),
+        pytest.param("NewTitle", 1, "NewDescription", "slug", "4.99", "", False, marks=pytest.mark.xfail),
     ],
 )
 def test_product_instance(
